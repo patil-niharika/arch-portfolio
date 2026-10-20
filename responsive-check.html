@@ -1,5 +1,0 @@
-<!doctype html><meta charset="utf-8"><title>Portfolio responsive check</title>
-<style>body{margin:0;background:#ddd;font:14px sans-serif}header{padding:10px;background:#fff;display:flex;gap:12px;align-items:center}button{padding:8px 16px}iframe{display:block;background:#fff;border:0;margin:16px auto;box-shadow:0 2px 14px #999}#size{margin-left:auto}</style>
-<header><b>Live portfolio viewport check</b><button id="phone">Phone 390 × 844</button><button id="tablet">Tablet 768 × 1024</button><button id="laptop">Laptop 1366 × 768</button><span id="size"></span></header>
-<iframe id="site" title="Live portfolio" src="https://patil-niharika.github.io/arch-portfolio/?v=20261020" width="390" height="844" allow="fullscreen"></iframe>
-<script>const frame=document.getElementById('site');function size(w,h){frame.width=w;frame.height=h;document.getElementById('size').textContent=w+' × '+h;}document.getElementById('phone').onclick=()=>size(390,844);document.getElementById('tablet').onclick=()=>size(768,1024);document.getElementById('laptop').onclick=()=>size(1366,768);size(390,844);</script>
