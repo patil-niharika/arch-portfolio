@@ -1,0 +1,47 @@
+name: Restore verified portfolio once
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    if: github.repository == 'patil-niharika/arch-portfolio' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 2
+      - name: Restrict this task to the single authorized upload
+        run: |
+          test "$(git rev-parse HEAD^)" = "0b690872f614c4813be911d28df5e738eb19a83a"
+          test ! -e index.html
+      - name: Reassemble and verify original website
+        shell: python
+        run: |
+          import hashlib, io, pathlib, zipfile
+          root = pathlib.Path(".")
+          parts = sorted((root / ".portfolio-upload").glob("portfolio.zip.part*"))
+          assert len(parts) == 9, f"Expected 9 parts, found {len(parts)}"
+          data = b"".join(p.read_bytes() for p in parts)
+          assert hashlib.sha256(data).hexdigest() == "19fe8fe65e145e5b5bb6d6f22bbc528089021b10769f4401ba1b60a71c8df935", "Archive checksum mismatch"
+          with zipfile.ZipFile(io.BytesIO(data)) as archive:
+              names = archive.namelist()
+              assert len(names) == 63
+              assert sum(n.startswith("pages/") and n.endswith(".pdf") for n in names) == 24
+              for name in names:
+                  path = pathlib.PurePosixPath(name)
+                  assert not path.is_absolute() and ".." not in path.parts
+                  assert name in {".nojekyll", "README.md", "app.js", "index.html", "site-config.js", "styles.css"} or name.startswith(("assets/", "pages/"))
+              archive.extractall(root)
+              for name in names:
+                  assert (root / name).read_bytes() == archive.read(name), name
+          print("Verified all 63 original files, including all 24 unchanged PDFs.")
+      - name: Publish verified files to main
+        run: |
+          git config user.name "Niharika Patil"
+          git config user.email "344935421+patil-niharika@users.noreply.github.com"
+          git add .nojekyll README.md app.js index.html site-config.js styles.css assets pages
+          git commit -m "Publish architecture portfolio with 24 original-quality PDF sheets"
+          git push origin HEAD:main
+          # The new commit changes HEAD's parent, so this task cannot restore again.
