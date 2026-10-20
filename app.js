@@ -11,17 +11,17 @@ const PAGE_COUNT = 24;
 const chapters = [
   {id:'introduction',number:'00',title:'Introduction',short:'INTRODUCTION',start:1,end:3,category:'PORTFOLIO / PROFILE'},
   {id:'exoskeletal-circuit',number:'01',title:'Exoskeletal Circuit',short:'EXOSKELETAL CIRCUIT',start:4,end:8,category:'STADIUM DESIGN', semester:'SEM 07',location:'BENGALURU',
-    titleLines:['EXOSKELETAL','CIRCUIT'],summary:'Reimagining a 40,000-seat football stadium through exposed circulation towers, crowd behaviour and an exoskeletal system.',tagline:'CIRCULATION AS ARCHITECTURE',image:'exoskeletal.webp'},
+    titleLines:['EXOSKELETAL','CIRCUIT'],summary:'Reimagining a 40,000-seat football stadium through exposed circulation towers, crowd behaviour and an exoskeletal system.',tagline:'CIRCULATION AS ARCHITECTURE',image:'exoskeletal-original.png',imageWidth:1470,imageHeight:1070},
   {id:'samvedana',number:'02',title:'Samvedana',short:'SAMVEDANA',start:9,end:12,category:'INSTITUTIONAL DESIGN',semester:'SEM 06',location:'BENGALURU',
-    titleLines:['SAMVEDANA'],summary:'An arts institute for the visually impaired, shaped by sensory cues, interconnected levels and independent navigation.',tagline:'DESIGNING THROUGH THE SENSES',image:'samvedana.webp'},
+    titleLines:['SAMVEDANA'],summary:'An arts institute for the visually impaired, shaped by sensory cues, interconnected levels and independent navigation.',tagline:'DESIGNING THROUGH THE SENSES',image:'samvedana-original.jpg',imageWidth:2048,imageHeight:1446},
   {id:'mitti',number:'03',title:'Mitti',short:'MITTI',start:13,end:15,category:'CULTURAL DESIGN',semester:'SEM 05',location:'BENGALURU',
-    titleLines:['MITTI'],summary:'A community centre and gallery dedicated to sustaining pottery, its artisans and the evolving experience of craft.',tagline:'THE ARCHITECTURE OF MAKING',image:'mitti.webp'},
+    titleLines:['MITTI'],summary:'A community centre and gallery dedicated to sustaining pottery, its artisans and the evolving experience of craft.',tagline:'THE ARCHITECTURE OF MAKING',image:'mitti-original.png',imageWidth:1992,imageHeight:926},
   {id:'saanidhya',number:'04',title:'Saanidhya',short:'SAANIDHYA',start:16,end:18,category:'URBAN DESIGN',semester:'SEM 08',location:'MELUKOTE',
-    titleLines:['SAANIDHYA'],summary:'Reactivating a neglected waterbody and translating Melukote’s living heritage into spaces of cultural exchange.',tagline:'MEMORY, CULTURE AND PLACE',image:'saanidhya.webp'},
+    titleLines:['SAANIDHYA'],summary:'Reactivating a neglected waterbody and translating Melukote’s living heritage into spaces of cultural exchange.',tagline:'MEMORY, CULTURE AND PLACE',image:'saanidhya-original.png',imageWidth:2048,imageHeight:1068},
   {id:'working-drawings',number:'05',title:'Working Drawings',short:'WORKING DRAWINGS',start:19,end:20,category:'TECHNICAL DRAFTING',semester:'SEM 06—07',location:'ACADEMIC',
-    titleLines:['WORKING','DRAWINGS'],summary:'Technical drawing sets exploring the detail and coordination underlying the built form.',tagline:'FROM CONCEPT TO DETAIL',image:'working-drawings.webp'},
+    titleLines:['WORKING','DRAWINGS'],summary:'Technical drawing sets exploring the detail and coordination underlying the built form.',tagline:'FROM CONCEPT TO DETAIL',image:'working-drawings-original.png',imageWidth:2000,imageHeight:1414},
   {id:'selected-explorations',number:'06',title:'Selected Explorations',short:'SELECTED EXPLORATIONS',start:21,end:23,category:'RESEARCH & CREATIVE WORK',semester:'ONGOING',location:'VARIOUS',
-    titleLines:['SELECTED','EXPLORATIONS'],summary:'Physical models, sketching, photography, painting and ongoing research into the spatial translation of experience.',tagline:'BEYOND THE DRAWING BOARD',image:'selected-explorations.webp'},
+    titleLines:['SELECTED','EXPLORATIONS'],summary:'Physical models, sketching, photography, painting and ongoing research into the spatial translation of experience.',tagline:'BEYOND THE DRAWING BOARD',image:'selected-explorations-original.png',imageWidth:2000,imageHeight:1414},
   {id:'closing',number:'—',title:'Contact',short:'CONTACT',start:24,end:24,category:'CONTACT'}
 ];
 const projects = chapters.slice(1,7);
@@ -34,7 +34,7 @@ function setupMainSite(){
   $('project-list').innerHTML = projects.map(project => `
     <article class="project-row" role="button" tabindex="0" data-open-page="${project.start}" aria-label="Open ${project.title} project, ${project.end-project.start+1} sheets">
       <span class="project-number">${project.number}</span>
-      <div class="project-picture"><img src="${path('assets/'+project.image)}" alt="Original imagery from the ${project.title} architecture portfolio project" loading="lazy"/><span class="picture-index">FIG. ${project.number} / ${project.tagline}</span></div>
+      <div class="project-picture"><img src="${path('assets/'+project.image)}" width="${project.imageWidth}" height="${project.imageHeight}" alt="Original imagery from the ${project.title} architecture portfolio project" loading="lazy"/><span class="picture-index">FIG. ${project.number} / ${project.tagline}</span></div>
       <div class="project-info"><span class="project-type">${project.category}</span><h3>${project.titleLines.map(t=>`<span>${t}</span>`).join('')}</h3><p class="project-description">${project.summary}</p><div class="project-facts"><span>${project.semester}</span><span>${project.location}</span><span>${pad(project.end-project.start+1)} SHEETS</span></div></div>
       <span class="project-open" aria-hidden="true">↗</span>
     </article>`).join('');
